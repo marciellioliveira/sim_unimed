@@ -273,7 +273,8 @@
                  $conecta->exec($textoSQL);
 
 
-
+                $valorTotal = $qd1 * $id1;
+                echo "Valor Total: ".$valorTotal;
 
 
                   }
