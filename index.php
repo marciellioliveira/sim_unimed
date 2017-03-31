@@ -231,7 +231,7 @@
                   $nome=$_SESSION['firstMessage'];
                   $valor=$_SESSION['secondMessage'];
 
-                  
+                  $valorTotal = $qntD * $valor;
                     
 
 
