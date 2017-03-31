@@ -219,8 +219,7 @@
                   $id=$_POST['idade_dep'];
 
                  
-                  $textoSQL="INSERT INTO dependentes(qnt_dependentes, idade_dependentes) VALUES ('".$qd."','".$id."')";  
-                  $conecta->exec($textoSQL);
+                 
 
                   //Quantidade de Dependentes
 
@@ -243,7 +242,7 @@
                     $qd1 = 6;
                   }
 
-                    echo "<h1>Quantidade: ".$qd1."</h1>";
+                    echo "<h4>Quantidade: ".$qd1."</h4>";
 
 
                     //Idade
@@ -266,9 +265,20 @@
                     $id1 = 60;
                   }
 
-                   echo "<h1>Idade: ".$id1."</h1>";
+                   echo "<h4>Idade: ".$id1."</h4>";
+
+
+
+                 $textoSQL="INSERT INTO dependentes(qnt_dependentes, idade_dependentes) VALUES ('".$qd1."','".$id1."')";  
+                 $conecta->exec($textoSQL);
+
+
+
+
 
                   }
+
+
 
 
             ?>
