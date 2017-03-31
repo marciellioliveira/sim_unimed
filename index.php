@@ -26,8 +26,10 @@
     </div>
       
       <div class="container">
-        <form method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
+        
         <div class="row">
+
+        <form method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
           <div class="col-sm-4">
             
             <h1>Cliente</h1>
@@ -55,7 +57,7 @@
                   <option value="a">Apartamento</option>
                 </select>
               </div>        
-              <form action="mostra.php" method="post" accept-charset="utf-8">              
+              <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post" accept-charset="utf-8">              
                             
                 <button type="submit" value="enviar" name="enviar" class="btn btn-default">Gerar Valor da Mensalidade</button>
               </form> 
@@ -157,72 +159,55 @@
                           echo "<br>";
                           echo "<strong>Valor Individual:</strong> ".$valor;  
                           
+                          
 
-
-                         # header('Location: index.php?val='.$valor);  
-
-                         echo '
-                            <br><br>
-                            <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                              Adicionar Dependentes
-                            </a>
-                         
-                         ';              
+                         # header('Location: index.php?val='.$valor);            
                  
               }
 
             ?>
              </div>
+          </form>
 
+          <form method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
           <div class="col-sm-4">            
-            
-            <div class="collapse" id="collapseExample">
+                        
             <h1>Dependente</h1>
             <br>
-              <?php
-                  $nome=$_SESSION['firstMessage'];
-                  $valor=$_SESSION['secondMessage'];
-
-                  echo "<strong>Titular:</strong> ".$nome;                  
-                  echo "<br>";
-                  echo "<strong>Valor Individual:</strong> ".$valor;
-
-              ?>
+              
             <br>
-           <!--   <div class="well1">-->
-            <input name="teste" class="hidden">             
-              <div class="form-group">                
-                <label for="qnt_d">Quantidade de Dependentes:</label>
-                <select class="form-control" id="qnt_d" name="qnt_dep">
-                  <option value="13">1</option>
-                  <option value="14">2</option>
-                  <option value="15">3</option>
-                  <option value="16">4</option>
-                  <option value="17">5</option>
-                  <option value="18">6</option>
-                </select>
-              </div> 
+          
+            <div class="form-group">
+            <input name="teste" class="hidden"> 
+            </div>            
               <div class="form-group">
-                <label for="idade">Idade:</label>
-                <select class="form-control" id="idade" name="idade_dep">
-                  <option value="7">Até 18 anos</option>
-                  <option value="8">Até 23 anos</option>
-                  <option value="9">Até 28 anos</option>
-                  <option value="10">Até 38 anos</option>
-                  <option value="11">Até 53 anos</option>
-                  <option value="12">54 anos ou mais</option>
+                <label for="sel1">Quantidade de Dependentes:</label>
+                <select class="form-control" id="sel1" name="qnt_dep">
+                  <option value="id1">1</option>
+                  <option value="id2">2</option>
+                  <option value="id3">3</option>
+                  <option value="id4">4</option>
+                  <option value="id5">5</option>
+                  <option value="id6">6</option>
                 </select>
-              </div>                  
+              </div>  
+              <div class="form-group">
+                <label for="sel1">Idade dos Dependentes:</label>
+                <select class="form-control" id="sel1" name="idade_dep">
+                  <option value="d7">Até 10 anos</option>
+                  <option value="d8">Até 20 anos</option>
+                  <option value="d9">Até 30 anos</option>
+                  <option value="d10">Até 40 anos</option>
+                  <option value="d11">Até 50 anos</option>
+                  <option value="d12">Até 60 anos</option>
+                </select>
+              </div>        
               <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post" accept-charset="utf-8">              
                             
-                <button type="submit" value="enviar" name="enviar" class="btn btn-default">Gerar Valor Total das Mensalidades</button>
-
+                <button type="submit" value="enviar" name="enviar" class="btn btn-default">Gerar Valor Total da Mensalidade</button>
               </form> 
-          
-             <!-- </div>-->
-            </div>
-
-            <?php 
+           
+              <?php 
 
                if(isset($_POST['teste'])){              
               
@@ -230,44 +215,81 @@
                   $conecta=new PDO('mysql:host=127.0.0.1;port=3306;dbname=unimed','root','');
                   $conecta->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                   $nome=$_SESSION['firstMessage'];
-                  $valor=$_SESSION['secondMessage'];
+                  $qd=$_POST['qnt_dep'];           
+                  $id=$_POST['idade_dep'];
 
-
-                  $qntD=$_POST['qnt_dep'];
-                  $idadeD=$_POST['idade_dep'];
                  
-
-                  $vi = floatval($valor);
-                  
-                  $valorTotal = 0;
-
-                  if($qntD == '5') {
-                    $valorTotal = $vi*5;
-                    
-                  }
-
-                 # echo "<strong>Valor total: </strong>".$valorTotal;
-                  
-
-
- $textoSQL="INSERT INTO dependentes(titular, mensalidade_titular, qnt_dependentes, idade_dependentes, valor_total) VALUES ('".$nome."','".$valor."','".$qntD."','".$idadeD."','".$valorTotal."')";  
-
+                  $textoSQL="INSERT INTO dependentes(qnt_dependentes, idade_dependentes) VALUES ('".$qd."','".$id."')";  
                   $conecta->exec($textoSQL);
+
+                  //Quantidade de Dependentes
+
+                  if($qd == "id1") {
+                    $qd1 = 1;
+                  } 
+                  if($qd == "id2") {
+                    $qd1 = 2;
                   }
+                  if($qd == "id3") {
+                    $qd1 = 3;
+                  }
+                  if($qd == "id4") {
+                    $qd1 = 4;
+                  }
+                  if($qd == "id5") {
+                    $qd1 = 5;
+                  }
+                  if($qd == "id6") {
+                    $qd1 = 6;
+                  }
+
+                    echo "<h1>Quantidade: ".$qd1."</h1>";
+
+
+                    //Idade
+                    if($id == "d7") {
+                    $id1 = 10;
+                  } 
+                  if($id == "d8") {
+                    $id1 = 20;
+                  }
+                  if($id == "d9") {
+                    $id1 = 30;
+                  }
+                  if($id == "d10") {
+                    $id1 = 40;
+                  }
+                  if($id == "d11") {
+                    $id1 = 50;
+                  }
+                  if($id == "d12") {
+                    $id1 = 60;
+                  }
+
+                   echo "<h1>Idade: ".$id1."</h1>";
+
+                  }
+
+
             ?>
+          
+
+           
 
           </div> <!--Fecha coluna do meio -->
+          </form>
           <div class="col-sm-4">
             
            
             </div>
+             </form> <!-- Form geral -->
 
           </div> <!-- Fecha ultima coluna -->
         </div>
+        </div>
        
 
-  </form> <!-- Form geral -->
+ 
 
 
       </div> <!-- Container -->
