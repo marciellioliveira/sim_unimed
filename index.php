@@ -20,6 +20,10 @@
   <body>
     
     <div class="jumbotron">
+
+    <div id="banner" style="margin: 10px">
+         <?php echo '<image src="imagens/header.jpg" />'; ?>
+    </div>
       
       <div class="container">
         <form method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
@@ -185,23 +189,22 @@
 
               ?>
             <br>
-              <div class="well">
-           <!--     <form method="POST" action="<?php #echo $_SERVER['PHP_SELF'];?>">-->
-             
-              <div class="form-group">
-                <label for="sel1">Quantidade de Dependentes:</label>
-                <select class="form-control" id="sel1" name="qnt_dep">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
+           <!--   <div class="well1">-->
+            <input name="teste" class="hidden">             
+              <div class="form-group">                
+                <label for="qnt_d">Quantidade de Dependentes:</label>
+                <select class="form-control" id="qnt_d" name="qnt_dep">
+                  <option value="13">1</option>
+                  <option value="14">2</option>
+                  <option value="15">3</option>
+                  <option value="16">4</option>
+                  <option value="17">5</option>
+                  <option value="18">6</option>
                 </select>
               </div> 
               <div class="form-group">
-                <label for="sel1">Idade:</label>
-                <select class="form-control" id="sel1" name="idade_dep">
+                <label for="idade">Idade:</label>
+                <select class="form-control" id="idade" name="idade_dep">
                   <option value="7">Até 18 anos</option>
                   <option value="8">Até 23 anos</option>
                   <option value="9">Até 28 anos</option>
@@ -213,29 +216,36 @@
               <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post" accept-charset="utf-8">              
                             
                 <button type="submit" value="enviar" name="enviar" class="btn btn-default">Gerar Valor Total das Mensalidades</button>
+
               </form> 
-           <!-- </form> -->
-              </div>
+          
+             <!-- </div>-->
             </div>
 
             <?php 
 
-               if(isset($_POST['qnt_dep'])){              
+               if(isset($_POST['teste'])){              
               
             // conecta banco de dados
                   $conecta=new PDO('mysql:host=127.0.0.1;port=3306;dbname=unimed','root','');
                   $conecta->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                  $qntD=$_POST['qnt_dep'];
-                  $idadeD=$_POST['idade_dep'];
-                  $nome=$_SESSION['firstMessage'];
+                   $nome=$_SESSION['firstMessage'];
                   $valor=$_SESSION['secondMessage'];
 
-                  $valorTotal = $qntD * $valor;
+
+                  $qntD=$_POST['qnt_dep'];
+                  $idadeD=$_POST['idade_dep'];
+                 
+
+                  $vi = floatval($valor);
+                  
+                  $valorTotal = 0;
+
+                  if($qntD == '5') {
+                    $valorTotal = $vi*5;
                     
-
-
-
+                  }
 
                  # echo "<strong>Valor total: </strong>".$valorTotal;
                   
@@ -250,19 +260,12 @@
           </div> <!--Fecha coluna do meio -->
           <div class="col-sm-4">
             
-            <?php
-
-
-              echo "<h1>Titular</h1><br>";
-
-
-
-
-            ?>
+           
+            </div>
 
           </div> <!-- Fecha ultima coluna -->
         </div>
-        </div>
+       
 
   </form> <!-- Form geral -->
 
