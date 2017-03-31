@@ -22,16 +22,16 @@
     <div class="jumbotron">
       
       <div class="container">
-        
+        <form method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
         <div class="row">
           <div class="col-sm-4">
             
             <h1>Cliente</h1>
 
-            <form method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
+            
               <div class="form-group">
                 <label for="nome_titular">Nome do Titular:</label>
-                <input type="text" class="form-control" id="email" name="nome_titular">
+                <input type="text" required="true" class="form-control" id="email" name="nome_titular">
               </div>
               <div class="form-group">
                 <label for="sel1">Idade:</label>
@@ -55,7 +55,7 @@
                             
                 <button type="submit" value="enviar" name="enviar" class="btn btn-default">Gerar Valor da Mensalidade</button>
               </form> 
-            </form> <!-- Form geral -->
+            
             <br><br>
 
             <?php 
@@ -74,7 +74,7 @@
                  $textoSQL="INSERT INTO clientes(nome, idade, categoria_plano) VALUES ('".$nomet."','".$idade1."','".$categoriap."')";  
                   $conecta->exec($textoSQL);
 
-                     echo $nomet;
+                     
                    
                    switch($categoriap) {
 
@@ -139,64 +139,114 @@
                           break;
                     }      
 
+                    session_start();
+
+                    $no1=$nomet;
+                    $va1=$valor;
+
+                    $_SESSION['firstMessage'] = $no1;
+                    $_SESSION['secondMessage'] = $va1; 
+
                           echo "<br>";
-                          echo $valor;
-                  
+                          echo "<strong>Titular:</strong> ".$nomet;  
+                         
+                          echo "<br>";
+                          echo "<strong>Valor Individual:</strong> ".$valor;  
+                          
+
+
+                         # header('Location: index.php?val='.$valor);  
+
+                         echo '
+                            <br><br>
+                            <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                              Adicionar Dependentes
+                            </a>
+                          </div>
+                         ';              
                  
               }
 
             ?>
 
-            <br><br>
-            <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-              Adicionar Dependentes
-            </a>
-          </div>
-
-
-          <div class="col-sm-4">
-
             
+
+
+          <div class="col-sm-4">            
             
             <div class="collapse" id="collapseExample">
             <h1>Dependente</h1>
             <br>
+              <?php
+                  $nome=$_SESSION['firstMessage'];
+                  $valor=$_SESSION['secondMessage'];
+
+                  echo "<strong>Titular:</strong> ".$nome;                  
+                  echo "<br>";
+                  echo "<strong>Valor Individual:</strong> ".$valor;
+
+              ?>
+            <br>
               <div class="well">
-                <form method="POST" action="grava.php">
-             
+           <!--     <form method="POST" action="<?php #echo $_SERVER['PHP_SELF'];?>">-->
               <div class="form-group">
-                <label for="qnt">Quantidade:</label>
-                <input type="text" class="form-control" id="email" name="qnt_dep">
+                <label for="qnt_dep">Quantidade:</label>
+                <input type="text"  class="form-control" id="text" name="qnt_dep">
               </div>
+              <div class="form-group">
+                <label for="sel1">Quantidade de Dependentes:</label>
+                <select class="form-control" id="sel1" name="qnt_dep">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                </select>
+              </div> 
               <div class="form-group">
                 <label for="sel1">Idade:</label>
                 <select class="form-control" id="sel1" name="idade_dep">
-                  <option value="7">0 – 18 anos</option>
-                  <option value="8">19 – 23 anos</option>
-                  <option value="9">24 – 28 anos</option>
-                  <option value="10">29 – 38 anos</option>
-                  <option value="11">39 – 53 anos</option>
+                  <option value="7">Até 18 anos</option>
+                  <option value="8">Até 23 anos</option>
+                  <option value="9">Até 28 anos</option>
+                  <option value="10">Até 38 anos</option>
+                  <option value="11">Até 53 anos</option>
                   <option value="12">54 anos ou mais</option>
                 </select>
               </div>                  
-              <form action="mostra.php" method="post" accept-charset="utf-8">              
+              <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post" accept-charset="utf-8">              
                             
                 <button type="submit" value="enviar" name="enviar" class="btn btn-default">Gerar Valor Total das Mensalidades</button>
               </form> 
-            </form> 
+           <!-- </form> -->
               </div>
             </div>
-            
 
-             
+            <?php 
 
+               if(isset($_POST['qnt_dep'])){              
+              
+            // conecta banco de dados
+                  $conecta=new PDO('mysql:host=127.0.0.1;port=3306;dbname=unimed','root','');
+                  $conecta->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+                  $qntD=$_POST['qnt_dep'];
+                  $idadeD=$_POST['idade_dep'];
+                  $nome=$_SESSION['firstMessage'];
+                  $valor=$_SESSION['secondMessage'];
+ $textoSQL="INSERT INTO dependentes(titular, mensalidade_titular, qnt_dependentes, idade_dependentes) VALUES ('".$nome."','".$valor."','".$qntD."','".$idadeD."')";  
+
+                  $conecta->exec($textoSQL);
+                    }
+
+            ?>
 
           </div>
           <div class="col-sm-4"></div>
         </div>
 
-
+  </form> <!-- Form geral -->
 
 
       </div>
