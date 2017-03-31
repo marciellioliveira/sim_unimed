@@ -24,14 +24,11 @@
       <div class="container">
         
         <div class="row">
-          <div class="col-sm-4"></div>
           <div class="col-sm-4">
             
-            <!-- LOGO -->
-
             <h1>Cliente</h1>
 
-            <form method="POST" action="grava.php">
+            <form method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
               <div class="form-group">
                 <label for="nome_titular">Nome do Titular:</label>
                 <input type="text" class="form-control" id="email" name="nome_titular">
@@ -54,15 +51,142 @@
                   <option value="a">Apartamento</option>
                 </select>
               </div>        
-              <form action="mostra.php" method="post" accept-charset="utf-8">
-              
+              <form action="mostra.php" method="post" accept-charset="utf-8">              
                             
-            <button type="submit" value="enviar" name="enviar" class="btn btn-default">Gerar Valor da Mensalidade</button>
-                 </form> 
+                <button type="submit" value="enviar" name="enviar" class="btn btn-default">Gerar Valor da Mensalidade</button>
+              </form> 
+            </form> <!-- Form geral -->
+            <br><br>
+
+            <?php 
+
+              if(isset($_POST['nome_titular'])){
+                 // conecta banco de dados
+                  $conecta=new PDO('mysql:host=127.0.0.1;port=3306;dbname=unimed','root','');
+                  $conecta->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                  $nomet=$_POST['nome_titular'];
+                  $idade1=$_POST['idade'];
+                  $categoriap=$_POST['categoria'];
+                 # $qntD=$_POST['qnt_dep'];
+                  #$idadeD=$_POST['idade_dep'];
               
+                 $textoSQL="INSERT INTO clientes(nome, idade, categoria_plano) VALUES ('".$nomet."','".$idade1."','".$categoriap."')";  
+                  $conecta->exec($textoSQL);
+
+                     echo $nomet;
+                   
+                   switch($categoriap) {
+
+                        case "a":
+
+                        if($idade1 == 1) {
+
+                          $valor="282,00";
+
+                        } else if($idade1 == 2) {
+
+                          $valor="325,00";
+
+                        } else if($idade1 == 3) {
+
+                          $valor="373,00";
+
+                        } else if($idade1 == 4) {
+
+                          $valor="494,00";
+
+                        } else if($idade1 == 5) {
+
+                          $valor="902,00";
+
+                        } else if($idade1 == 6) {
+
+                          $valor="1200,00";
+
+                        } 
+                          break;
+                        case "e":
+                           if($idade1 == 1) {
+
+                          $valor="193,00";
+
+                        } else if($idade1 == 2) {
+
+                          $valor="221,00";
+
+                        } else if($idade1 == 3) {
+
+                          $valor="255,00";
+
+                        } else if($idade1 == 4) {
+
+                          $valor="337,00";
+
+                        } else if($idade1 == 5) {
+
+                          $valor="616,00";
+
+                        } else if($idade1 == 6) {
+
+                          $valor="800,00";
+
+                        }
+                           break;
+                        
+                        default:
+                          echo "Erro";
+                          break;
+                    }      
+
+                          echo "<br>";
+                          echo $valor;
+                  
+                 
+              }
+
+            ?>
+
+            <br><br>
+            <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+              Adicionar Dependentes
+            </a>
+          </div>
+
+
+          <div class="col-sm-4">
+
+            
+            
+            <div class="collapse" id="collapseExample">
+            <h1>Dependente</h1>
+            <br>
+              <div class="well">
+                <form method="POST" action="grava.php">
              
-             
-            </form>
+              <div class="form-group">
+                <label for="qnt">Quantidade:</label>
+                <input type="text" class="form-control" id="email" name="qnt_dep">
+              </div>
+              <div class="form-group">
+                <label for="sel1">Idade:</label>
+                <select class="form-control" id="sel1" name="idade_dep">
+                  <option value="7">0 – 18 anos</option>
+                  <option value="8">19 – 23 anos</option>
+                  <option value="9">24 – 28 anos</option>
+                  <option value="10">29 – 38 anos</option>
+                  <option value="11">39 – 53 anos</option>
+                  <option value="12">54 anos ou mais</option>
+                </select>
+              </div>                  
+              <form action="mostra.php" method="post" accept-charset="utf-8">              
+                            
+                <button type="submit" value="enviar" name="enviar" class="btn btn-default">Gerar Valor Total das Mensalidades</button>
+              </form> 
+            </form> 
+              </div>
+            </div>
+            
 
              
 
