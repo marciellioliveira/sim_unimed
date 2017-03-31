@@ -162,15 +162,13 @@
                             <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                               Adicionar Dependentes
                             </a>
-                          </div>
+                         
                          ';              
                  
               }
 
             ?>
-
-            
-
+             </div>
 
           <div class="col-sm-4">            
             
@@ -189,10 +187,7 @@
             <br>
               <div class="well">
            <!--     <form method="POST" action="<?php #echo $_SERVER['PHP_SELF'];?>">-->
-              <div class="form-group">
-                <label for="qnt_dep">Quantidade:</label>
-                <input type="text"  class="form-control" id="text" name="qnt_dep">
-              </div>
+             
               <div class="form-group">
                 <label for="sel1">Quantidade de Dependentes:</label>
                 <select class="form-control" id="sel1" name="qnt_dep">
@@ -235,24 +230,47 @@
                   $idadeD=$_POST['idade_dep'];
                   $nome=$_SESSION['firstMessage'];
                   $valor=$_SESSION['secondMessage'];
- $textoSQL="INSERT INTO dependentes(titular, mensalidade_titular, qnt_dependentes, idade_dependentes) VALUES ('".$nome."','".$valor."','".$qntD."','".$idadeD."')";  
+
+                  
+                    
+
+
+
+
+                 # echo "<strong>Valor total: </strong>".$valorTotal;
+                  
+
+
+ $textoSQL="INSERT INTO dependentes(titular, mensalidade_titular, qnt_dependentes, idade_dependentes, valor_total) VALUES ('".$nome."','".$valor."','".$qntD."','".$idadeD."','".$valorTotal."')";  
 
                   $conecta->exec($textoSQL);
-                    }
+                  }
+            ?>
+
+          </div> <!--Fecha coluna do meio -->
+          <div class="col-sm-4">
+            
+            <?php
+
+
+              echo "<h1>Titular</h1><br>";
+
+
+
 
             ?>
 
-          </div>
-          <div class="col-sm-4"></div>
+          </div> <!-- Fecha ultima coluna -->
+        </div>
         </div>
 
   </form> <!-- Form geral -->
 
 
-      </div>
+      </div> <!-- Container -->
 
 
-    </div>
+    </div> <!-- Jumntron -->
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
