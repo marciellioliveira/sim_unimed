@@ -21,9 +21,7 @@
     
     <div class="jumbotron">
 
-    <div id="banner" style="margin: 10px">
-         <?php echo '<image src="imagens/header.jpg" />'; ?>
-    </div>
+    
       
       <div class="container">
         
@@ -157,11 +155,13 @@
                           echo "<strong>Titular:</strong> ".$nomet;  
                          
                           echo "<br>";
-                          echo "<strong>Valor Individual:</strong> ".$valor;  
-                          
+                          echo "<strong>Valor Individual:</strong> ".$valor;                            
                           
 
-                         # header('Location: index.php?val='.$valor);            
+                         # header('Location: index.php?val='.$valor);   
+
+
+
                  
               }
 
@@ -218,13 +218,10 @@
                   $qd=$_POST['qnt_dep'];           
                   $id=$_POST['idade_dep'];
 
-                 
-                 
-
                   //Quantidade de Dependentes
 
                   if($qd == "id1") {
-                    $qd1 = 1;
+                    $qd1 = 1;                    
                   } 
                   if($qd == "id2") {
                     $qd1 = 2;
@@ -242,47 +239,125 @@
                     $qd1 = 6;
                   }
 
-                    echo "<h4>Quantidade: ".$qd1."</h4>";
+                    echo "<h4>".$qd1." dependentes</h4>";
 
 
                     //Idade
                     if($id == "d7") {
-                    $id1 = 10;
+                    $id1 = 18;      
+                    $v="193,00";              
                   } 
                   if($id == "d8") {
-                    $id1 = 20;
+                    $id1 = 23;
+                    $v="221,00";  
                   }
                   if($id == "d9") {
-                    $id1 = 30;
+                    $id1 = 28;
+                    $v="255,00";  
                   }
                   if($id == "d10") {
-                    $id1 = 40;
+                    $id1 = 38;
+                    $v="337,00";  
                   }
                   if($id == "d11") {
-                    $id1 = 50;
+                    $id1 = 53;
+                    $v="616,00";  
                   }
                   if($id == "d12") {
-                    $id1 = 60;
+                    $id1 = 54;
+                    $v="800,00";  
                   }
 
-                   echo "<h4>Idade: ".$id1."</h4>";
-
-
+                   echo "<h4>Média de ".$id1." anos</h4>";
 
                  $textoSQL="INSERT INTO dependentes(qnt_dependentes, idade_dependentes) VALUES ('".$qd1."','".$id1."')";  
                  $conecta->exec($textoSQL);
 
+                 //Valor Total dos Dependentes
+                $valorTotalDependentes = $qd1 * $v;
+                echo "<strong>Valor Total:</strong> ".$valorTotalDependentes;
+                echo "<br>";
 
-                $valorTotal = $qd1 * $id1;
-                echo "Valor Total: ".$valorTotal;
+                //Valor total do Titular + Dependentes
+                $valorTotalTD = $valorTotalDependentes + ($valorTotalDependentes/2);
+                echo "<strong>Valor total do Titular + Dependentes:</strong> ".$valorTotalTD;
+
+                  }
+            ?>
+
+            <br><br>
+
+            <div class="form-group">
+            <input name="teste1" class="hidden"> 
+            </div> 
+            <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post" accept-charset="utf-8">              
+                            
+                <button type="submit" value="enviar" name="confirma" class="btn btn-default">Confirmar Proposta</button>
+              </form>
+
+              <?php
+
+                if(isset($_POST['teste1'])){ 
+
+                try{
+                  $conectar=new PDO('mysql:host=127.0.0.1;port=3306;dbname=unimed', 'root', '');
+                  $conectar->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                  $dados=$conectar->query("SELECT * FROM clientes");
+                  $dados1=$conectar->query("SELECT * FROM dependentes");
+                  
+                  //Tabela Clientes   
+                    foreach($dados as $linha) {
+                    if( !next( $linha ) ) {
+                        echo '<h1>Last Item</h1>';
+
+                    }
+                    }        
+
+                                           
+
+                      $n=$linha['nome'];
+                      $ida=$linha['idade'];
+                      $catego=$linha['categoria_plano'];  
+
+                      //Tabela Dependentes  
+                    foreach($dados1 as $linha) {
+                    if( !next( $linha ) ) {
+                        echo '<h1>Last Item</h1>';
+
+                    }
+                    } 
+
+                      $qdp=$linha['qnt_dependentes'];
+                      $iddp=$linha['idade_dependentes'];
+
+                      echo "<br>";
+                      echo "<strong>Nome Titular: </strong>".$n;   
+                      echo "<br>";
+                      echo "<strong>Idade Titular: </strong>".$ida; 
+                      echo "<br>";
+                      echo "<strong>Categoria:</strong> ".$catego; 
+                      echo "<br>";
+                      echo "<strong>Quantidade Dependentes:</strong> ".$qdp; 
+                      echo "<br>";
+                      echo "<strong>Idade Dependentes:</strong> ".$iddp;             
+                   
 
 
+    $textoSQL="INSERT INTO proposta(nome_titular, idade_titular, categoria_plano, qnt_dependentes, idade_dependentes) VALUES ('".$n."','".$ida."','".$catego."','".$qdp."','".$iddp."')";  
+    $conecta->exec($textoSQL); 
+
+                  } // fecha try
+
+
+                  
+                  catch (PDOException $erro)
+                  {
+                    echo "Nao posso fazer a pesquisa";
                   }
 
 
-
-
-            ?>
+                }
+              ?>
           
 
            
@@ -291,6 +366,9 @@
           </form>
           <div class="col-sm-4">
             
+            <div id="banner" style="margin: 10px">
+         <?php echo '<image src="imagens/header.jpg" />'; ?>
+    </div>
            
             </div>
              </form> <!-- Form geral -->

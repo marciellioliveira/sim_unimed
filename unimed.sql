@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 01-Abr-2017 às 00:59
+-- Generation Time: 01-Abr-2017 às 02:18
 -- Versão do servidor: 10.1.19-MariaDB
 -- PHP Version: 7.0.13
 
@@ -27,6 +27,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `clientes` (
+  `id` int(11) NOT NULL,
   `nome` varchar(200) NOT NULL,
   `idade` int(20) NOT NULL,
   `categoria_plano` varchar(200) NOT NULL
@@ -52,17 +53,21 @@ CREATE TABLE `dependentes` (
 
 CREATE TABLE `proposta` (
   `nome_titular` varchar(200) NOT NULL,
-  `idade` int(20) NOT NULL,
+  `idade_titular` int(20) NOT NULL,
   `categoria_plano` varchar(200) NOT NULL,
   `qnt_dependentes` int(200) NOT NULL,
-  `nome_dependente` varchar(200) NOT NULL,
-  `idade_dependentes` int(200) NOT NULL,
-  `mensalidade_titular` varchar(200) NOT NULL
+  `idade_dependentes` int(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `clientes`
+--
+ALTER TABLE `clientes`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `dependentes`
@@ -74,6 +79,11 @@ ALTER TABLE `dependentes`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `clientes`
+--
+ALTER TABLE `clientes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `dependentes`
 --
